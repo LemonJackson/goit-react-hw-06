@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import ContactList from '../ContactList/ContactList';
 import SearchBox from '../SearchBox/SearchBox';
 import ContactForm from '../ContactForm/ContactForm';
@@ -12,42 +11,12 @@ export default function App() {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ];
 
-  const [contacts, setContacts] = useState(() => {
-    const savedContacts = window.localStorage.getItem('contacts');
-    return savedContacts ? JSON.parse(savedContacts) : initialContacts;
-  });
-
-  const [filterValue, setFilterValue] = useState('');
-
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const handleFilterContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filterValue.toLowerCase())
-  );
-
-  const handleAddContact = newContact => {
-    setContacts(() => {
-      return [...contacts, newContact];
-    });
-  };
-
-  const handleDeleteContact = id => {
-    setContacts(() => {
-      return contacts.filter(contact => contact.id !== id);
-    });
-  };
-
   return (
     <section className={css.section}>
       <h1>Phonebook</h1>
-      <ContactForm contacts={contacts} handleAddContact={handleAddContact} />
-      <SearchBox value={filterValue} onChange={setFilterValue} />
-      <ContactList
-        contacts={handleFilterContacts}
-        handleDeleteContact={handleDeleteContact}
-      />
+      <ContactForm />
+      <SearchBox />
+      <ContactList />
     </section>
   );
 }
